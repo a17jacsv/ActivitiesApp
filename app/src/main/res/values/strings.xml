@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">ActivitiesApp</string>
+    <string name="app_name">Assignment4</string>
+    <string name="title_activity_mountain_details">Assignment4</string>
+    <string name="title_activity_mountains_">Assignment4</string>
+    <string name="title_activity_mountains_details">Assignment4</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_refresh">Settings</string>
 </resources>
+
