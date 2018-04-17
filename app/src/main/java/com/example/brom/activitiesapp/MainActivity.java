@@ -37,6 +37,8 @@ import java.util.List;
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
 
+            Toast.makeText(getApplicationContext(),m.utmatare(), Toast.LENGTH_SHORT).show();
+
             final List<String> listData = new ArrayList<String>(Arrays.asList(mountainNames));
 
             final ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), R.layout.list_item_textview, R.id.my_item_textview, listData);

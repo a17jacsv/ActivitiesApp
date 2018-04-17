@@ -17,4 +17,8 @@ public class Mountains {
         this.location=location;
         this.url=url;
     }
+
+    public String utmatare() {
+        return name + " is part of the " + location +  " mountains range and is " +  Integer.toString(height) + "m high.";
+    }
 }
