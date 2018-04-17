@@ -21,4 +21,9 @@ public class Mountains {
     public String utmatare() {
         return name + " is part of the " + location +  " mountains range and is " +  Integer.toString(height) + "m high.";
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

@@ -5,12 +5,17 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import static com.example.brom.activitiesapp.R.id.list_view;
 
@@ -25,45 +30,58 @@ import java.util.Arrays;
 import java.util.List;
 
     public class MainActivity extends AppCompatActivity {
-        private String[] mountainNames = {"Matterhorn", "Mont Blanc", "Denali"};
-        private String[] mountainLocations = {"Alps", "Alps", "Alaska"};
-        private int[] mountainHeights = {4478, 4808, 6190};
-        // Create ArrayLists from the raw data above and use these lists when populating your ListView.
+
 
         private Mountains m = new Mountains("K2", 5000, "Himalaya", "https://google.se");
+
+        protected ArrayList<Mountains> mountainlist = new ArrayList<>();
+        ListView myListView;
+
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
 
-            Toast.makeText(getApplicationContext(),m.utmatare(), Toast.LENGTH_SHORT).show();
-
-            final List<String> listData = new ArrayList<String>(Arrays.asList(mountainNames));
-
-            final ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), R.layout.list_item_textview, R.id.my_item_textview, listData);
-
+            Brorsan getJson = new Brorsan();
+            getJson.execute();
+            
             ListView myListView = (ListView) findViewById(list_view);
+
             myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                     //Toast nedan:
-                    Toast.makeText(getApplicationContext(),mountainNames[position] + " is part of the " + mountainLocations[position] +  " mountains range and is " +  Integer.toString(mountainHeights[position]) + "m high.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), mountainlist.get(position).utmatare(), Toast.LENGTH_SHORT).show();
 
-                    Intent intent = new Intent(getApplicationContext(), MountainsDetailsActivity.class);
-
-                    intent.putExtra("MOUNTAIN_NAMES", mountainNames[position]);
-                    intent.putExtra("MOUNTAIN_LOCATIONS", mountainLocations[position]);
-                    intent.putExtra("MOUNTAIN_HEIGHTS", Integer.toString(mountainHeights[position]));
-
-                    startActivity(intent);
                 }
             });
 
-            myListView.setAdapter(adapter);
 
-            new Brorsan().execute();
+
+        }
+
+        @Override
+        public boolean onCreateOptionsMenu(Menu menu){
+            getMenuInflater().inflate(R.menu.menu_main, menu);
+            return super.onCreateOptionsMenu(menu);
+        }
+
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item) {
+            int id = item.getItemId();
+
+            if (id == R.id.action_refresh) {
+                mountainlist.clear();
+                new Brorsan().execute();
+                Toast refreshed = Toast.makeText(this, "List have been refreshed", Toast.LENGTH_SHORT);
+                refreshed.show();
+
+                return true;
+            }
+
+            return super.onOptionsItemSelected(item);
         }
 
         private class Brorsan extends AsyncTask {
@@ -73,6 +91,34 @@ import java.util.List;
                 super.onPostExecute(o);
                 String s = new String(o.toString());
                 Log.d("Jacob","DataFetched"+s);
+
+                try {
+                    JSONArray mountaindata = new JSONArray(s);
+
+                    for(int i = 0; i < mountaindata.length(); i++){
+                        JSONObject mountain = mountaindata.getJSONObject(i);
+
+                        String name = mountain.getString("name");
+                        String location = mountain.getString("location");
+                        int height = mountain.getInt("size");
+
+                        String auxdata = mountain.getString("auxdata");
+                        JSONObject aux = new JSONObject(auxdata);
+                        String url = aux.getString("img");
+                        Mountains m = new Mountains(name, height, location, url);
+                        mountainlist.add(m);
+
+                    }
+                }
+                    catch (JSONException e) {
+                    e.printStackTrace();
+                    }
+
+
+                    ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), R.layout.list_item_textview, R.id.my_item_textview, mountainlist);
+
+                    myListView = (ListView)findViewById(R.id.list_view);
+                    myListView.setAdapter(adapter);
             }
 
             @Override
