@@ -43,13 +43,14 @@ public class MainActivity extends AppCompatActivity {
         myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Toast.makeText(getApplicationContext(), mountainLocations[position] +  ", " +  Integer.toString(mountainHeights[position]), Toast.LENGTH_SHORT).show();
+
+                //Toast nedan:
+                Toast.makeText(getApplicationContext(),mountainNames[position] + " is part of the " + mountainLocations[position] +  " mountains range and is " +  Integer.toString(mountainHeights[position]) + "m high.", Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(getApplicationContext(), MountainsDetailsActivity.class);
 
                 intent.putExtra("MOUNTAIN_NAMES", mountainNames[position]);
                 intent.putExtra("MOUNTAIN_LOCATIONS", mountainLocations[position]);
-
                 intent.putExtra("MOUNTAIN_HEIGHTS", Integer.toString(mountainHeights[position]));
 
                 startActivity(intent);
@@ -61,10 +62,6 @@ public class MainActivity extends AppCompatActivity {
         new Brorsan().execute();
     }
 
-
-
-
-
     private class Brorsan extends AsyncTask {
 
         @Override
@@ -73,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
             String s = new String(o.toString());
             Log.d("Jacob","DataFetched"+s);
         }
-
 
         @Override
         protected Object doInBackground(Object[] params) {
@@ -139,9 +135,7 @@ public class MainActivity extends AppCompatActivity {
     }
 }
 
-
 }
-
 
 // 1. Create a ListView as in previous assignment
 // 2. Create a new activity named "MountainDetailsActivity
