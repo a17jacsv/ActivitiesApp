@@ -31,9 +31,6 @@ import java.util.List;
 
     public class MainActivity extends AppCompatActivity {
 
-
-        private Mountains m = new Mountains("K2", 5000, "Himalaya", "https://google.se");
-
         protected ArrayList<Mountains> mountainlist = new ArrayList<>();
         ListView myListView;
 
@@ -45,7 +42,7 @@ import java.util.List;
 
             Brorsan getJson = new Brorsan();
             getJson.execute();
-            
+
             ListView myListView = (ListView) findViewById(list_view);
 
             myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -59,8 +56,34 @@ import java.util.List;
             });
 
 
+            myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+
+
+                    Intent intent = new Intent(getApplicationContext(), hio.class);
+                    Bundle extras = new Bundle();
+
+                    String name = mountainlist.get(position).getName();
+                    String location = mountainlist.get(position).getLocation();
+                    String height = Integer.toString(mountainlist.get(position).getHeight());
+                    String url = mountainlist.get(position).getImage();
+
+                    extras.putString("MOUNTAIN_NAME", name);
+                    extras.putString("MOUNTAIN_LOCATION", location);
+                    extras.putString("MOUNTAIN_HEIGHT", height);
+                    extras.putString("MOUNTAIN_IMAGE", url);
+
+                    intent.putExtras(extras);
+                    getApplicationContext().startActivity(intent);
+
+                }
+            });
 
         }
+
+
+
 
         @Override
         public boolean onCreateOptionsMenu(Menu menu){

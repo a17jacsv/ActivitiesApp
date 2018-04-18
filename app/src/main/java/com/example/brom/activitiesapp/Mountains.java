@@ -22,6 +22,24 @@ public class Mountains {
         return name + " is part of the " + location +  " mountains range and is " +  Integer.toString(height) + "m high.";
     }
 
+
+    public String getName(){
+        return name;
+    }
+
+    public int getHeight(){
+        return height;
+    }
+
+    public String getLocation(){
+        return location;
+    }
+
+    public String getImage(){
+        return url;
+    }
+
+
     @Override
     public String toString() {
         return name;

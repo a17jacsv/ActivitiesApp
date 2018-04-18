@@ -17,17 +17,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MountainDetailsActivity"
+            android:name=".hio"
             android:label="@string/title_activity_mountain_details"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.brom.activitiesapp.MainActivity" />
-        </activity>
-        <activity
-            android:name=".MountainsDetailsActivity"
-            android:label="@string/title_activity_mountains_details"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
