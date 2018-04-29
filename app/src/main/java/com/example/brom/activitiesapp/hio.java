@@ -66,6 +66,5 @@ public class hio extends AppCompatActivity{
         }
 
         new DownloadImageTask((ImageView) findViewById(R.id.mountainImage)).execute(message4);
-
     }
 }
