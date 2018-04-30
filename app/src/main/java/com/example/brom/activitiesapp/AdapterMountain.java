@@ -15,7 +15,7 @@ import java.util.List;
 
 /**
  * Created by jacobsvensson on 2018-04-17.
- */
+ s*/
 
 public class AdapterMountain extends ArrayAdapter{
     private Context context;
